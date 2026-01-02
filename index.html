@@ -1,0 +1,1977 @@
+
+
+<!-- BEGIN app/views/layouts/application.html.erb --><!DOCTYPE html>
+<html>
+  <head>
+    <title>Calendar</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Calendar">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    
+
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap");
+/* line 3, app/assets/stylesheets/_global.scss */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* line 9, app/assets/stylesheets/_global.scss */
+body {
+  padding: 0 0 50px 0;
+  background-color: #eee;
+  font-family: "Google Sans", sans-serif;
+  font-optical-sizing: auto;
+}
+
+/* line 16, app/assets/stylesheets/_global.scss */
+.calendar-container {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+/* line 21, app/assets/stylesheets/_global.scss */
+.calendar-container li {
+  width: calc(100% / 4);
+  padding: 10px;
+}
+
+@media (max-width: 1000px) {
+  /* line 21, app/assets/stylesheets/_global.scss */
+  .calendar-container li {
+    width: 100%;
+  }
+}
+
+/* line 27, app/assets/stylesheets/_global.scss */
+.calendar-container li h2 {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+}
+
+/* line 34, app/assets/stylesheets/_global.scss */
+table.calendar {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* line 38, app/assets/stylesheets/_global.scss */
+table.calendar tr th, table.calendar tr td {
+  width: calc(100%/7);
+  padding: 5px;
+  font-size: 13px;
+}
+
+/* line 43, app/assets/stylesheets/_global.scss */
+table.calendar tr th {
+  background-color: #000;
+  border: 1px solid #000;
+  color: #fff;
+}
+
+/* line 48, app/assets/stylesheets/_global.scss */
+table.calendar tr td {
+  background-color: #fff;
+  border: 1px solid #bbb;
+  position: relative;
+}
+
+/* line 52, app/assets/stylesheets/_global.scss */
+table.calendar tr td .day {
+  position: relative;
+  z-index: 9;
+}
+
+/* line 56, app/assets/stylesheets/_global.scss */
+table.calendar tr td .HOLIDAY,
+table.calendar tr td .INSET_DAY,
+table.calendar tr td .BANK_HOLIDAY {
+  width: calc(100% - 3px);
+  height: calc(100% - 3px);
+  border-radius: 3px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* line 67, app/assets/stylesheets/_global.scss */
+table.calendar tr td .HOLIDAY {
+  background-color: #ffcc99;
+}
+
+/* line 70, app/assets/stylesheets/_global.scss */
+table.calendar tr td .INSET_DAY {
+  background-color: #ff7f7f;
+}
+
+/* line 73, app/assets/stylesheets/_global.scss */
+table.calendar tr td .BANK_HOLIDAY {
+  background-color: #81d2a4;
+}
+
+/* line 76, app/assets/stylesheets/_global.scss */
+table.calendar tr td .EMMA_OFF,
+table.calendar tr td .EMMA_FREE_DAY,
+table.calendar tr td .ADAM_OFF,
+table.calendar tr td .HOLIDAY_CLUB {
+  width: calc(100% - 3px);
+  height: calc(100% - 3px);
+  border-radius: 3px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+}
+
+/* line 88, app/assets/stylesheets/_global.scss */
+table.calendar tr td .EMMA_OFF:before,
+table.calendar tr td .EMMA_FREE_DAY:before,
+table.calendar tr td .ADAM_OFF:before,
+table.calendar tr td .HOLIDAY_CLUB:before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 25px 25px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+/* line 99, app/assets/stylesheets/_global.scss */
+table.calendar tr td .EMMA_OFF:before {
+  border-color: transparent transparent #fd82b0 transparent;
+}
+
+/* line 102, app/assets/stylesheets/_global.scss */
+table.calendar tr td .EMMA_FREE_DAY:before {
+  border-color: transparent transparent #B82EB7 transparent;
+}
+
+/* line 105, app/assets/stylesheets/_global.scss */
+table.calendar tr td .ADAM_OFF:before {
+  border-color: transparent transparent #0099dd transparent;
+}
+
+/* line 108, app/assets/stylesheets/_global.scss */
+table.calendar tr td .HOLIDAY_CLUB:before {
+  border-color: transparent transparent #171559 transparent;
+}
+
+/* line 115, app/assets/stylesheets/_global.scss */
+.key {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  width: 100%;
+  height: 50px;
+  background-color: #fff;
+  box-shadow: 0px -4px 3px rgba(0, 0, 0, 0.15);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  overflow-x: auto;
+}
+
+@media (max-width: 1000px) {
+  /* line 115, app/assets/stylesheets/_global.scss */
+  .key {
+    justify-content: flex-start;
+    padding: 0 15px;
+  }
+}
+
+/* line 134, app/assets/stylesheets/_global.scss */
+.key li {
+  display: flex;
+  align-items: center;
+  padding: 0 15px 0 0;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+/* line 140, app/assets/stylesheets/_global.scss */
+.key li:last-child {
+  padding: 0;
+}
+
+/* line 143, app/assets/stylesheets/_global.scss */
+.key li span {
+  width: 20px;
+  height: 20px;
+  margin: 0 5px 0 0;
+  border-radius: 3px;
+}
+
+/* line 150, app/assets/stylesheets/_global.scss */
+.key li:nth-child(1) span {
+  background-color: #ffcc99;
+}
+
+/* line 153, app/assets/stylesheets/_global.scss */
+.key li:nth-child(2) span {
+  background-color: #ff7f7f;
+}
+
+/* line 156, app/assets/stylesheets/_global.scss */
+.key li:nth-child(3) span {
+  background-color: #81d2a4;
+}
+
+/* line 159, app/assets/stylesheets/_global.scss */
+.key li:nth-child(4) span {
+  background-color: #fd82b0;
+}
+
+/* line 162, app/assets/stylesheets/_global.scss */
+.key li:nth-child(5) span {
+  background-color: #B82EB7;
+}
+
+/* line 165, app/assets/stylesheets/_global.scss */
+.key li:nth-child(6) span {
+  background-color: #0099dd;
+}
+
+/* line 168, app/assets/stylesheets/_global.scss */
+.key li:nth-child(7) span {
+  background-color: #171559;
+}
+    </style>
+  </head>
+
+  <body>
+    <!-- BEGIN app/views/home/index.html.erb -->
+<ul class="calendar-container">
+    <li>
+      <h2>January</h2>
+      
+      <table class="calendar">
+        <thead>
+          <tr>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+              <th>Sun</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+
+              <tr>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                        <span class="BANK_HOLIDAY"></span>
+                    <span class="day ">1</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                        <span class="EMMA_FREE_DAY"></span>
+                    <span class="day selected">2</span>
+                  </td>
+                  <td>
+                    <span class="day ">3</span>
+                  </td>
+                  <td>
+                    <span class="day ">4</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                        <span class="INSET_DAY"></span>
+                    <span class="day ">5</span>
+                  </td>
+                  <td>
+                    <span class="day ">6</span>
+                  </td>
+                  <td>
+                    <span class="day ">7</span>
+                  </td>
+                  <td>
+                    <span class="day ">8</span>
+                  </td>
+                  <td>
+                    <span class="day ">9</span>
+                  </td>
+                  <td>
+                    <span class="day ">10</span>
+                  </td>
+                  <td>
+                    <span class="day ">11</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">12</span>
+                  </td>
+                  <td>
+                    <span class="day ">13</span>
+                  </td>
+                  <td>
+                    <span class="day ">14</span>
+                  </td>
+                  <td>
+                    <span class="day ">15</span>
+                  </td>
+                  <td>
+                    <span class="day ">16</span>
+                  </td>
+                  <td>
+                    <span class="day ">17</span>
+                  </td>
+                  <td>
+                    <span class="day ">18</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">19</span>
+                  </td>
+                  <td>
+                    <span class="day ">20</span>
+                  </td>
+                  <td>
+                    <span class="day ">21</span>
+                  </td>
+                  <td>
+                    <span class="day ">22</span>
+                  </td>
+                  <td>
+                    <span class="day ">23</span>
+                  </td>
+                  <td>
+                    <span class="day ">24</span>
+                  </td>
+                  <td>
+                    <span class="day ">25</span>
+                  </td>
+              </tr>
+
+            <tr>
+                <td>
+                  <span class="day ">26</span>
+                </td>
+                <td>
+                  <span class="day ">27</span>
+                </td>
+                <td>
+                  <span class="day ">28</span>
+                </td>
+                <td>
+                  <span class="day ">29</span>
+                </td>
+                <td>
+                  <span class="day ">30</span>
+                </td>
+                <td>
+                  <span class="day ">31</span>
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>
+      <h2>February</h2>
+      
+      <table class="calendar">
+        <thead>
+          <tr>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+              <th>Sun</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+
+              <tr>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day ">1</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">2</span>
+                  </td>
+                  <td>
+                    <span class="day ">3</span>
+                  </td>
+                  <td>
+                    <span class="day ">4</span>
+                  </td>
+                  <td>
+                    <span class="day ">5</span>
+                  </td>
+                  <td>
+                    <span class="day ">6</span>
+                  </td>
+                  <td>
+                    <span class="day ">7</span>
+                  </td>
+                  <td>
+                    <span class="day ">8</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">9</span>
+                  </td>
+                  <td>
+                    <span class="day ">10</span>
+                  </td>
+                  <td>
+                    <span class="day ">11</span>
+                  </td>
+                  <td>
+                    <span class="day ">12</span>
+                  </td>
+                  <td>
+                    <span class="day ">13</span>
+                  </td>
+                  <td>
+                    <span class="day ">14</span>
+                  </td>
+                  <td>
+                    <span class="day ">15</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                        <span class="EMMA_FREE_DAY"></span>
+                    <span class="day ">16</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                        <span class="EMMA_FREE_DAY"></span>
+                    <span class="day ">17</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                        <span class="EMMA_FREE_DAY"></span>
+                    <span class="day ">18</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                        <span class="EMMA_FREE_DAY"></span>
+                    <span class="day ">19</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                        <span class="EMMA_FREE_DAY"></span>
+                    <span class="day ">20</span>
+                  </td>
+                  <td>
+                    <span class="day ">21</span>
+                  </td>
+                  <td>
+                    <span class="day ">22</span>
+                  </td>
+              </tr>
+
+            <tr>
+                <td>
+                      <span class="INSET_DAY"></span>
+                  <span class="day ">23</span>
+                </td>
+                <td>
+                  <span class="day ">24</span>
+                </td>
+                <td>
+                  <span class="day ">25</span>
+                </td>
+                <td>
+                  <span class="day ">26</span>
+                </td>
+                <td>
+                  <span class="day ">27</span>
+                </td>
+                <td>
+                  <span class="day ">28</span>
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>
+      <h2>March</h2>
+      
+      <table class="calendar">
+        <thead>
+          <tr>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+              <th>Sun</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+
+              <tr>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day ">1</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">2</span>
+                  </td>
+                  <td>
+                    <span class="day ">3</span>
+                  </td>
+                  <td>
+                    <span class="day ">4</span>
+                  </td>
+                  <td>
+                    <span class="day ">5</span>
+                  </td>
+                  <td>
+                    <span class="day ">6</span>
+                  </td>
+                  <td>
+                    <span class="day ">7</span>
+                  </td>
+                  <td>
+                    <span class="day ">8</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">9</span>
+                  </td>
+                  <td>
+                    <span class="day ">10</span>
+                  </td>
+                  <td>
+                    <span class="day ">11</span>
+                  </td>
+                  <td>
+                    <span class="day ">12</span>
+                  </td>
+                  <td>
+                    <span class="day ">13</span>
+                  </td>
+                  <td>
+                    <span class="day ">14</span>
+                  </td>
+                  <td>
+                    <span class="day ">15</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">16</span>
+                  </td>
+                  <td>
+                    <span class="day ">17</span>
+                  </td>
+                  <td>
+                    <span class="day ">18</span>
+                  </td>
+                  <td>
+                    <span class="day ">19</span>
+                  </td>
+                  <td>
+                    <span class="day ">20</span>
+                  </td>
+                  <td>
+                    <span class="day ">21</span>
+                  </td>
+                  <td>
+                    <span class="day ">22</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">23</span>
+                  </td>
+                  <td>
+                    <span class="day ">24</span>
+                  </td>
+                  <td>
+                    <span class="day ">25</span>
+                  </td>
+                  <td>
+                    <span class="day ">26</span>
+                  </td>
+                  <td>
+                    <span class="day ">27</span>
+                  </td>
+                  <td>
+                    <span class="day ">28</span>
+                  </td>
+                  <td>
+                    <span class="day ">29</span>
+                  </td>
+              </tr>
+
+            <tr>
+                <td>
+                      <span class="HOLIDAY"></span>
+                  <span class="day ">30</span>
+                </td>
+                <td>
+                      <span class="HOLIDAY"></span>
+                  <span class="day ">31</span>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>
+      <h2>April</h2>
+      
+      <table class="calendar">
+        <thead>
+          <tr>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+              <th>Sun</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+
+              <tr>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">1</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">2</span>
+                  </td>
+                  <td>
+                        <span class="BANK_HOLIDAY"></span>
+                    <span class="day ">3</span>
+                  </td>
+                  <td>
+                    <span class="day ">4</span>
+                  </td>
+                  <td>
+                    <span class="day ">5</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                        <span class="BANK_HOLIDAY"></span>
+                    <span class="day ">6</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">7</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">8</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">9</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">10</span>
+                  </td>
+                  <td>
+                    <span class="day ">11</span>
+                  </td>
+                  <td>
+                    <span class="day ">12</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">13</span>
+                  </td>
+                  <td>
+                    <span class="day ">14</span>
+                  </td>
+                  <td>
+                    <span class="day ">15</span>
+                  </td>
+                  <td>
+                    <span class="day ">16</span>
+                  </td>
+                  <td>
+                    <span class="day ">17</span>
+                  </td>
+                  <td>
+                    <span class="day ">18</span>
+                  </td>
+                  <td>
+                    <span class="day ">19</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">20</span>
+                  </td>
+                  <td>
+                    <span class="day ">21</span>
+                  </td>
+                  <td>
+                    <span class="day ">22</span>
+                  </td>
+                  <td>
+                    <span class="day ">23</span>
+                  </td>
+                  <td>
+                    <span class="day ">24</span>
+                  </td>
+                  <td>
+                    <span class="day ">25</span>
+                  </td>
+                  <td>
+                    <span class="day ">26</span>
+                  </td>
+              </tr>
+
+            <tr>
+                <td>
+                  <span class="day ">27</span>
+                </td>
+                <td>
+                  <span class="day ">28</span>
+                </td>
+                <td>
+                  <span class="day ">29</span>
+                </td>
+                <td>
+                  <span class="day ">30</span>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>
+      <h2>May</h2>
+      
+      <table class="calendar">
+        <thead>
+          <tr>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+              <th>Sun</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+
+              <tr>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day ">1</span>
+                  </td>
+                  <td>
+                    <span class="day ">2</span>
+                  </td>
+                  <td>
+                    <span class="day ">3</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                        <span class="BANK_HOLIDAY"></span>
+                    <span class="day ">4</span>
+                  </td>
+                  <td>
+                    <span class="day ">5</span>
+                  </td>
+                  <td>
+                    <span class="day ">6</span>
+                  </td>
+                  <td>
+                    <span class="day ">7</span>
+                  </td>
+                  <td>
+                    <span class="day ">8</span>
+                  </td>
+                  <td>
+                    <span class="day ">9</span>
+                  </td>
+                  <td>
+                    <span class="day ">10</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">11</span>
+                  </td>
+                  <td>
+                    <span class="day ">12</span>
+                  </td>
+                  <td>
+                    <span class="day ">13</span>
+                  </td>
+                  <td>
+                    <span class="day ">14</span>
+                  </td>
+                  <td>
+                    <span class="day ">15</span>
+                  </td>
+                  <td>
+                    <span class="day ">16</span>
+                  </td>
+                  <td>
+                    <span class="day ">17</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">18</span>
+                  </td>
+                  <td>
+                    <span class="day ">19</span>
+                  </td>
+                  <td>
+                    <span class="day ">20</span>
+                  </td>
+                  <td>
+                    <span class="day ">21</span>
+                  </td>
+                  <td>
+                        <span class="INSET_DAY"></span>
+                    <span class="day ">22</span>
+                  </td>
+                  <td>
+                    <span class="day ">23</span>
+                  </td>
+                  <td>
+                    <span class="day ">24</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                        <span class="BANK_HOLIDAY"></span>
+                    <span class="day ">25</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">26</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">27</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">28</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">29</span>
+                  </td>
+                  <td>
+                    <span class="day ">30</span>
+                  </td>
+                  <td>
+                    <span class="day ">31</span>
+                  </td>
+              </tr>
+
+        </tbody>
+      </table>
+    </li>
+    <li>
+      <h2>June</h2>
+      
+      <table class="calendar">
+        <thead>
+          <tr>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+              <th>Sun</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+
+              <tr>
+                  <td>
+                    <span class="day ">1</span>
+                  </td>
+                  <td>
+                    <span class="day ">2</span>
+                  </td>
+                  <td>
+                    <span class="day ">3</span>
+                  </td>
+                  <td>
+                    <span class="day ">4</span>
+                  </td>
+                  <td>
+                    <span class="day ">5</span>
+                  </td>
+                  <td>
+                    <span class="day ">6</span>
+                  </td>
+                  <td>
+                    <span class="day ">7</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">8</span>
+                  </td>
+                  <td>
+                    <span class="day ">9</span>
+                  </td>
+                  <td>
+                    <span class="day ">10</span>
+                  </td>
+                  <td>
+                    <span class="day ">11</span>
+                  </td>
+                  <td>
+                    <span class="day ">12</span>
+                  </td>
+                  <td>
+                    <span class="day ">13</span>
+                  </td>
+                  <td>
+                    <span class="day ">14</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">15</span>
+                  </td>
+                  <td>
+                    <span class="day ">16</span>
+                  </td>
+                  <td>
+                    <span class="day ">17</span>
+                  </td>
+                  <td>
+                    <span class="day ">18</span>
+                  </td>
+                  <td>
+                    <span class="day ">19</span>
+                  </td>
+                  <td>
+                    <span class="day ">20</span>
+                  </td>
+                  <td>
+                    <span class="day ">21</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">22</span>
+                  </td>
+                  <td>
+                    <span class="day ">23</span>
+                  </td>
+                  <td>
+                    <span class="day ">24</span>
+                  </td>
+                  <td>
+                    <span class="day ">25</span>
+                  </td>
+                  <td>
+                    <span class="day ">26</span>
+                  </td>
+                  <td>
+                    <span class="day ">27</span>
+                  </td>
+                  <td>
+                    <span class="day ">28</span>
+                  </td>
+              </tr>
+
+            <tr>
+                <td>
+                  <span class="day ">29</span>
+                </td>
+                <td>
+                  <span class="day ">30</span>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>
+      <h2>July</h2>
+      
+      <table class="calendar">
+        <thead>
+          <tr>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+              <th>Sun</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+
+              <tr>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day ">1</span>
+                  </td>
+                  <td>
+                    <span class="day ">2</span>
+                  </td>
+                  <td>
+                        <span class="INSET_DAY"></span>
+                    <span class="day ">3</span>
+                  </td>
+                  <td>
+                    <span class="day ">4</span>
+                  </td>
+                  <td>
+                    <span class="day ">5</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">6</span>
+                  </td>
+                  <td>
+                    <span class="day ">7</span>
+                  </td>
+                  <td>
+                    <span class="day ">8</span>
+                  </td>
+                  <td>
+                    <span class="day ">9</span>
+                  </td>
+                  <td>
+                    <span class="day ">10</span>
+                  </td>
+                  <td>
+                    <span class="day ">11</span>
+                  </td>
+                  <td>
+                    <span class="day ">12</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">13</span>
+                  </td>
+                  <td>
+                    <span class="day ">14</span>
+                  </td>
+                  <td>
+                    <span class="day ">15</span>
+                  </td>
+                  <td>
+                    <span class="day ">16</span>
+                  </td>
+                  <td>
+                    <span class="day ">17</span>
+                  </td>
+                  <td>
+                    <span class="day ">18</span>
+                  </td>
+                  <td>
+                    <span class="day ">19</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">20</span>
+                  </td>
+                  <td>
+                    <span class="day ">21</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">22</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">23</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">24</span>
+                  </td>
+                  <td>
+                    <span class="day ">25</span>
+                  </td>
+                  <td>
+                    <span class="day ">26</span>
+                  </td>
+              </tr>
+
+            <tr>
+                <td>
+                      <span class="HOLIDAY"></span>
+                  <span class="day ">27</span>
+                </td>
+                <td>
+                      <span class="HOLIDAY"></span>
+                  <span class="day ">28</span>
+                </td>
+                <td>
+                      <span class="HOLIDAY"></span>
+                  <span class="day ">29</span>
+                </td>
+                <td>
+                      <span class="HOLIDAY"></span>
+                  <span class="day ">30</span>
+                </td>
+                <td>
+                      <span class="HOLIDAY"></span>
+                  <span class="day ">31</span>
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>
+      <h2>August</h2>
+      
+      <table class="calendar">
+        <thead>
+          <tr>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+              <th>Sun</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+
+              <tr>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day ">1</span>
+                  </td>
+                  <td>
+                    <span class="day ">2</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">3</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">4</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">5</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">6</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">7</span>
+                  </td>
+                  <td>
+                    <span class="day ">8</span>
+                  </td>
+                  <td>
+                    <span class="day ">9</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">10</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">11</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">12</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">13</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">14</span>
+                  </td>
+                  <td>
+                    <span class="day ">15</span>
+                  </td>
+                  <td>
+                    <span class="day ">16</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">17</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">18</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">19</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">20</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">21</span>
+                  </td>
+                  <td>
+                    <span class="day ">22</span>
+                  </td>
+                  <td>
+                    <span class="day ">23</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">24</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">25</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">26</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">27</span>
+                  </td>
+                  <td>
+                        <span class="HOLIDAY"></span>
+                    <span class="day ">28</span>
+                  </td>
+                  <td>
+                    <span class="day ">29</span>
+                  </td>
+                  <td>
+                    <span class="day ">30</span>
+                  </td>
+              </tr>
+
+            <tr>
+                <td>
+                      <span class="BANK_HOLIDAY"></span>
+                  <span class="day ">31</span>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>
+      <h2>September</h2>
+      
+      <table class="calendar">
+        <thead>
+          <tr>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+              <th>Sun</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+
+              <tr>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day ">1</span>
+                  </td>
+                  <td>
+                    <span class="day ">2</span>
+                  </td>
+                  <td>
+                    <span class="day ">3</span>
+                  </td>
+                  <td>
+                    <span class="day ">4</span>
+                  </td>
+                  <td>
+                    <span class="day ">5</span>
+                  </td>
+                  <td>
+                    <span class="day ">6</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">7</span>
+                  </td>
+                  <td>
+                    <span class="day ">8</span>
+                  </td>
+                  <td>
+                    <span class="day ">9</span>
+                  </td>
+                  <td>
+                    <span class="day ">10</span>
+                  </td>
+                  <td>
+                    <span class="day ">11</span>
+                  </td>
+                  <td>
+                    <span class="day ">12</span>
+                  </td>
+                  <td>
+                    <span class="day ">13</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">14</span>
+                  </td>
+                  <td>
+                    <span class="day ">15</span>
+                  </td>
+                  <td>
+                    <span class="day ">16</span>
+                  </td>
+                  <td>
+                    <span class="day ">17</span>
+                  </td>
+                  <td>
+                    <span class="day ">18</span>
+                  </td>
+                  <td>
+                    <span class="day ">19</span>
+                  </td>
+                  <td>
+                    <span class="day ">20</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">21</span>
+                  </td>
+                  <td>
+                    <span class="day ">22</span>
+                  </td>
+                  <td>
+                    <span class="day ">23</span>
+                  </td>
+                  <td>
+                    <span class="day ">24</span>
+                  </td>
+                  <td>
+                    <span class="day ">25</span>
+                  </td>
+                  <td>
+                    <span class="day ">26</span>
+                  </td>
+                  <td>
+                    <span class="day ">27</span>
+                  </td>
+              </tr>
+
+            <tr>
+                <td>
+                  <span class="day ">28</span>
+                </td>
+                <td>
+                  <span class="day ">29</span>
+                </td>
+                <td>
+                  <span class="day ">30</span>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>
+      <h2>October</h2>
+      
+      <table class="calendar">
+        <thead>
+          <tr>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+              <th>Sun</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+
+              <tr>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day ">1</span>
+                  </td>
+                  <td>
+                    <span class="day ">2</span>
+                  </td>
+                  <td>
+                    <span class="day ">3</span>
+                  </td>
+                  <td>
+                    <span class="day ">4</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">5</span>
+                  </td>
+                  <td>
+                    <span class="day ">6</span>
+                  </td>
+                  <td>
+                    <span class="day ">7</span>
+                  </td>
+                  <td>
+                    <span class="day ">8</span>
+                  </td>
+                  <td>
+                    <span class="day ">9</span>
+                  </td>
+                  <td>
+                    <span class="day ">10</span>
+                  </td>
+                  <td>
+                    <span class="day ">11</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">12</span>
+                  </td>
+                  <td>
+                    <span class="day ">13</span>
+                  </td>
+                  <td>
+                    <span class="day ">14</span>
+                  </td>
+                  <td>
+                    <span class="day ">15</span>
+                  </td>
+                  <td>
+                    <span class="day ">16</span>
+                  </td>
+                  <td>
+                    <span class="day ">17</span>
+                  </td>
+                  <td>
+                    <span class="day ">18</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">19</span>
+                  </td>
+                  <td>
+                    <span class="day ">20</span>
+                  </td>
+                  <td>
+                    <span class="day ">21</span>
+                  </td>
+                  <td>
+                    <span class="day ">22</span>
+                  </td>
+                  <td>
+                    <span class="day ">23</span>
+                  </td>
+                  <td>
+                    <span class="day ">24</span>
+                  </td>
+                  <td>
+                    <span class="day ">25</span>
+                  </td>
+              </tr>
+
+            <tr>
+                <td>
+                  <span class="day ">26</span>
+                </td>
+                <td>
+                  <span class="day ">27</span>
+                </td>
+                <td>
+                  <span class="day ">28</span>
+                </td>
+                <td>
+                  <span class="day ">29</span>
+                </td>
+                <td>
+                  <span class="day ">30</span>
+                </td>
+                <td>
+                  <span class="day ">31</span>
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>
+      <h2>November</h2>
+      
+      <table class="calendar">
+        <thead>
+          <tr>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+              <th>Sun</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+
+              <tr>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day ">1</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">2</span>
+                  </td>
+                  <td>
+                    <span class="day ">3</span>
+                  </td>
+                  <td>
+                    <span class="day ">4</span>
+                  </td>
+                  <td>
+                    <span class="day ">5</span>
+                  </td>
+                  <td>
+                    <span class="day ">6</span>
+                  </td>
+                  <td>
+                    <span class="day ">7</span>
+                  </td>
+                  <td>
+                    <span class="day ">8</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">9</span>
+                  </td>
+                  <td>
+                    <span class="day ">10</span>
+                  </td>
+                  <td>
+                    <span class="day ">11</span>
+                  </td>
+                  <td>
+                    <span class="day ">12</span>
+                  </td>
+                  <td>
+                    <span class="day ">13</span>
+                  </td>
+                  <td>
+                    <span class="day ">14</span>
+                  </td>
+                  <td>
+                    <span class="day ">15</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">16</span>
+                  </td>
+                  <td>
+                    <span class="day ">17</span>
+                  </td>
+                  <td>
+                    <span class="day ">18</span>
+                  </td>
+                  <td>
+                    <span class="day ">19</span>
+                  </td>
+                  <td>
+                    <span class="day ">20</span>
+                  </td>
+                  <td>
+                    <span class="day ">21</span>
+                  </td>
+                  <td>
+                    <span class="day ">22</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">23</span>
+                  </td>
+                  <td>
+                    <span class="day ">24</span>
+                  </td>
+                  <td>
+                    <span class="day ">25</span>
+                  </td>
+                  <td>
+                    <span class="day ">26</span>
+                  </td>
+                  <td>
+                    <span class="day ">27</span>
+                  </td>
+                  <td>
+                    <span class="day ">28</span>
+                  </td>
+                  <td>
+                    <span class="day ">29</span>
+                  </td>
+              </tr>
+
+            <tr>
+                <td>
+                  <span class="day ">30</span>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>
+      <h2>December</h2>
+      
+      <table class="calendar">
+        <thead>
+          <tr>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+              <th>Sun</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+
+              <tr>
+                  <td>
+                    <span class="day "></span>
+                  </td>
+                  <td>
+                    <span class="day ">1</span>
+                  </td>
+                  <td>
+                    <span class="day ">2</span>
+                  </td>
+                  <td>
+                    <span class="day ">3</span>
+                  </td>
+                  <td>
+                    <span class="day ">4</span>
+                  </td>
+                  <td>
+                    <span class="day ">5</span>
+                  </td>
+                  <td>
+                    <span class="day ">6</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">7</span>
+                  </td>
+                  <td>
+                    <span class="day ">8</span>
+                  </td>
+                  <td>
+                    <span class="day ">9</span>
+                  </td>
+                  <td>
+                    <span class="day ">10</span>
+                  </td>
+                  <td>
+                    <span class="day ">11</span>
+                  </td>
+                  <td>
+                    <span class="day ">12</span>
+                  </td>
+                  <td>
+                    <span class="day ">13</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">14</span>
+                  </td>
+                  <td>
+                    <span class="day ">15</span>
+                  </td>
+                  <td>
+                    <span class="day ">16</span>
+                  </td>
+                  <td>
+                    <span class="day ">17</span>
+                  </td>
+                  <td>
+                    <span class="day ">18</span>
+                  </td>
+                  <td>
+                    <span class="day ">19</span>
+                  </td>
+                  <td>
+                    <span class="day ">20</span>
+                  </td>
+              </tr>
+              <tr>
+                  <td>
+                    <span class="day ">21</span>
+                  </td>
+                  <td>
+                    <span class="day ">22</span>
+                  </td>
+                  <td>
+                    <span class="day ">23</span>
+                  </td>
+                  <td>
+                    <span class="day ">24</span>
+                  </td>
+                  <td>
+                        <span class="BANK_HOLIDAY"></span>
+                    <span class="day ">25</span>
+                  </td>
+                  <td>
+                    <span class="day ">26</span>
+                  </td>
+                  <td>
+                    <span class="day ">27</span>
+                  </td>
+              </tr>
+
+            <tr>
+                <td>
+                      <span class="BANK_HOLIDAY"></span>
+                  <span class="day ">28</span>
+                </td>
+                <td>
+                  <span class="day ">29</span>
+                </td>
+                <td>
+                  <span class="day ">30</span>
+                </td>
+                <td>
+                  <span class="day ">31</span>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+      </table>
+    </li>
+</ul>
+
+<ul class="key">
+  <li><span></span> School Holiday</li>
+  <li><span></span> Inset Day</li>
+  <li><span></span> Bank Holiday</li>
+  <li><span></span> Emma Holiday</li>
+  <li><span></span> Emma Free Day</li>
+  <li><span></span> Adam Holiday</li>
+  <li><span></span> Holiday Club</li>
+</ul><!-- END app/views/home/index.html.erb -->
+  </body>
+</html>
+<!-- END app/views/layouts/application.html.erb -->
