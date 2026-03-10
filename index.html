@@ -2464,6 +2464,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
 </ul>
 
 <script>
+  // Cross of past days on calendar
   var today = new Date();
   today.setHours(0,0,0,0); // remove time
 
@@ -2475,6 +2476,22 @@ table.calendar tr td .HOLIDAY_CLUB:before {
       $(this).addClass('past-date');
     }
   });
+
+  // Scroll to current month
+  var months = [
+    "january","february","march","april","may","june",
+    "july","august","september","october","november","december"
+  ];
+
+  var currentMonth = months[new Date().getMonth()];
+
+  var target = $("li." + currentMonth);
+
+  if (target.length) {
+    $("html, body").animate({
+      scrollTop: (target.offset().top + 15)
+    }, 500);
+  }
 </script><!-- END app/views/home/index.html.erb -->
   </body>
 </html>
