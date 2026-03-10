@@ -298,7 +298,6 @@ table.calendar tr td .HOLIDAY_CLUB:before {
 .key li:nth-child(7) span {
   background-color: #171559;
 }
-
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   </head>
@@ -306,7 +305,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
   <body>
     <!-- BEGIN app/views/home/index.html.erb -->
 <ul class="calendar-container">
-    <li>
+    <li class="january">
       <h2>January</h2>
       
       <table class="calendar">
@@ -479,7 +478,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
         </tbody>
       </table>
     </li>
-    <li>
+    <li class="february">
       <h2>February</h2>
       
       <table class="calendar">
@@ -659,7 +658,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
         </tbody>
       </table>
     </li>
-    <li>
+    <li class="march">
       <h2>March</h2>
       
       <table class="calendar">
@@ -740,11 +739,11 @@ table.calendar tr td .HOLIDAY_CLUB:before {
               <tr>
                   <td class="date" data-date="2026-03-09">
                     <span class="cross"></span>
-                    <span class="day selected">9</span>
+                    <span class="day ">9</span>
                   </td>
                   <td class="date" data-date="2026-03-10">
                     <span class="cross"></span>
-                    <span class="day ">10</span>
+                    <span class="day selected">10</span>
                   </td>
                   <td class="date" data-date="2026-03-11">
                     <span class="cross"></span>
@@ -850,7 +849,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
         </tbody>
       </table>
     </li>
-    <li>
+    <li class="april">
       <h2>April</h2>
       
       <table class="calendar">
@@ -1027,7 +1026,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
         </tbody>
       </table>
     </li>
-    <li>
+    <li class="may">
       <h2>May</h2>
       
       <table class="calendar">
@@ -1207,7 +1206,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
         </tbody>
       </table>
     </li>
-    <li>
+    <li class="june">
       <h2>June</h2>
       
       <table class="calendar">
@@ -1364,7 +1363,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
         </tbody>
       </table>
     </li>
-    <li>
+    <li class="july">
       <h2>July</h2>
       
       <table class="calendar">
@@ -1542,7 +1541,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
         </tbody>
       </table>
     </li>
-    <li>
+    <li class="august">
       <h2>August</h2>
       
       <table class="calendar">
@@ -1751,7 +1750,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
         </tbody>
       </table>
     </li>
-    <li>
+    <li class="september">
       <h2>September</h2>
       
       <table class="calendar">
@@ -1911,7 +1910,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
         </tbody>
       </table>
     </li>
-    <li>
+    <li class="october">
       <h2>October</h2>
       
       <table class="calendar">
@@ -2092,7 +2091,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
         </tbody>
       </table>
     </li>
-    <li>
+    <li class="november">
       <h2>November</h2>
       
       <table class="calendar">
@@ -2277,7 +2276,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
         </tbody>
       </table>
     </li>
-    <li>
+    <li class="december">
       <h2>December</h2>
       
       <table class="calendar">
