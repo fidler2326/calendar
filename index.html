@@ -216,7 +216,19 @@ table.calendar tr td .HOLIDAY_CLUB:before {
   border-color: transparent transparent #171559 transparent;
 }
 
-/* line 154, app/assets/stylesheets/_global.scss */
+/* line 150, app/assets/stylesheets/_global.scss */
+table.calendar tr td .ADAM_IN_OFFICE {
+  width: 10px;
+  height: 10px;
+  background-color: #FF2957;
+  border: 1px solid #fff;
+  border-radius: 100%;
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+}
+
+/* line 164, app/assets/stylesheets/_global.scss */
 .key {
   list-style: none;
   display: flex;
@@ -235,14 +247,14 @@ table.calendar tr td .HOLIDAY_CLUB:before {
 }
 
 @media (max-width: 1000px) {
-  /* line 154, app/assets/stylesheets/_global.scss */
+  /* line 164, app/assets/stylesheets/_global.scss */
   .key {
     justify-content: flex-start;
     padding: 0 15px;
   }
 }
 
-/* line 173, app/assets/stylesheets/_global.scss */
+/* line 183, app/assets/stylesheets/_global.scss */
 .key li {
   display: flex;
   align-items: center;
@@ -251,12 +263,12 @@ table.calendar tr td .HOLIDAY_CLUB:before {
   white-space: nowrap;
 }
 
-/* line 179, app/assets/stylesheets/_global.scss */
+/* line 189, app/assets/stylesheets/_global.scss */
 .key li:last-child {
   padding: 0;
 }
 
-/* line 182, app/assets/stylesheets/_global.scss */
+/* line 192, app/assets/stylesheets/_global.scss */
 .key li span {
   width: 20px;
   height: 20px;
@@ -264,39 +276,45 @@ table.calendar tr td .HOLIDAY_CLUB:before {
   border-radius: 3px;
 }
 
-/* line 189, app/assets/stylesheets/_global.scss */
+/* line 199, app/assets/stylesheets/_global.scss */
 .key li:nth-child(1) span {
   background-color: #ffcc99;
 }
 
-/* line 192, app/assets/stylesheets/_global.scss */
+/* line 202, app/assets/stylesheets/_global.scss */
 .key li:nth-child(2) span {
   background-color: #ff7f7f;
 }
 
-/* line 195, app/assets/stylesheets/_global.scss */
+/* line 205, app/assets/stylesheets/_global.scss */
 .key li:nth-child(3) span {
   background-color: #81d2a4;
 }
 
-/* line 198, app/assets/stylesheets/_global.scss */
+/* line 208, app/assets/stylesheets/_global.scss */
 .key li:nth-child(4) span {
+  background-color: #171559;
+}
+
+/* line 211, app/assets/stylesheets/_global.scss */
+.key li:nth-child(5) span {
   background-color: #fd82b0;
 }
 
-/* line 201, app/assets/stylesheets/_global.scss */
-.key li:nth-child(5) span {
+/* line 214, app/assets/stylesheets/_global.scss */
+.key li:nth-child(6) span {
   background-color: #B82EB7;
 }
 
-/* line 204, app/assets/stylesheets/_global.scss */
-.key li:nth-child(6) span {
+/* line 217, app/assets/stylesheets/_global.scss */
+.key li:nth-child(7) span {
   background-color: #0099dd;
 }
 
-/* line 207, app/assets/stylesheets/_global.scss */
-.key li:nth-child(7) span {
-  background-color: #171559;
+/* line 220, app/assets/stylesheets/_global.scss */
+.key li:nth-child(8) span {
+  background-color: #FF2957;
+  border-radius: 100%;
 }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -537,6 +555,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
                   </td>
                   <td class="date" data-date="2026-02-04">
                     <span class="cross"></span>
+                        <span class="ADAM_IN_OFFICE"></span>
                     <span class="day ">4</span>
                   </td>
                   <td class="date" data-date="2026-02-05">
@@ -717,6 +736,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
                   </td>
                   <td class="date" data-date="2026-03-04">
                     <span class="cross"></span>
+                        <span class="ADAM_IN_OFFICE"></span>
                     <span class="day ">4</span>
                   </td>
                   <td class="date" data-date="2026-03-05">
@@ -743,7 +763,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
                   </td>
                   <td class="date" data-date="2026-03-10">
                     <span class="cross"></span>
-                    <span class="day selected">10</span>
+                    <span class="day ">10</span>
                   </td>
                   <td class="date" data-date="2026-03-11">
                     <span class="cross"></span>
@@ -807,7 +827,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
                   </td>
                   <td class="date" data-date="2026-03-25">
                     <span class="cross"></span>
-                    <span class="day ">25</span>
+                    <span class="day selected">25</span>
                   </td>
                   <td class="date" data-date="2026-03-26">
                     <span class="cross"></span>
@@ -880,6 +900,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
                     <span class="cross"></span>
                         <span class="HOLIDAY"></span>
                         <span class="EMMA_FREE_DAY"></span>
+                        <span class="ADAM_IN_OFFICE"></span>
                     <span class="day ">1</span>
                   </td>
                   <td class="date" data-date="2026-04-02">
@@ -1235,6 +1256,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
                   </td>
                   <td class="date" data-date="2026-06-03">
                     <span class="cross"></span>
+                        <span class="ADAM_IN_OFFICE"></span>
                     <span class="day ">3</span>
                   </td>
                   <td class="date" data-date="2026-06-04">
@@ -2456,10 +2478,11 @@ table.calendar tr td .HOLIDAY_CLUB:before {
   <li><span></span> School Holiday</li>
   <li><span></span> Inset Day</li>
   <li><span></span> Bank Holiday</li>
+  <li><span></span> Holiday Club</li>
   <li><span></span> Emma Holiday</li>
   <li><span></span> Emma Free Day</li>
   <li><span></span> Adam Holiday</li>
-  <li><span></span> Holiday Club</li>
+  <li><span></span> Adam In Office</li>
 </ul>
 
 <script>
@@ -2488,7 +2511,7 @@ table.calendar tr td .HOLIDAY_CLUB:before {
 
   if (target.length) {
     $("html, body").animate({
-      scrollTop: (target.offset().top + 5)
+      scrollTop: (target.offset().top + 15)
     }, 500);
   }
 </script><!-- END app/views/home/index.html.erb -->
